@@ -23,6 +23,8 @@ function playRound(cChoice, pChoice) {
 
 function game() {
 
+    let cScore = 0;
+    let pScore = 0;
     for (let i=0; i<5; i++) {
 
         const cChoice = getComputerChoice();
@@ -31,14 +33,25 @@ function game() {
         let win = playRound(cChoice, pChoice)
         if (win=="player") {
             console.log("You Win, " + pChoice + " beats " + cChoice);
+            pScore++;
 
         } else if (win=="computer") {
             console.log("You Lose, " + cChoice + " beats " + pChoice);
+            cScore++;
 
         } else if (win=="tie") {
             console.log("Its a tie!");
         }
     }
+    console.log("Your Score = " + pScore + ", Computer Score = " + cScore);
+
+    if (pScore > cScore)
+        console.log("WINNER WINNER CHICKEN DINNER!");
+    else if (pScore < cScore)
+        console.log("Better luck next time");
+    else
+        console.log("TIEEEE");
+
 }
 
 game();
