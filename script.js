@@ -17,41 +17,46 @@ function playRound(cChoice, pChoice) {
     (cChoice=="scissors" && pChoice=="paper"))
         return "computer";
 
-    else if (cChoice==pChoice)
-        return "tie";
 }
 
-function game() {
+function game(pChoice) {
 
-    let cScore = 0;
-    let pScore = 0;
-    for (let i=0; i<5; i++) {
+    const cChoice = getComputerChoice();
+    
+    let win = playRound(cChoice, pChoice)
+    if (win=="player") {
+        results.innerHTML = ("Yayy, " + pChoice + " beats " + cChoice);
+        pScore++;
+        updateScores();
+    } else if (win=="computer") {
+        results.innerHTML = ("Ouch, " + cChoice + " beats " + pChoice);
+        cScore++;
+        updateScores();
+    } else results.innerHTML = (pChoice + " ties to " + cChoice);
 
-        const cChoice = getComputerChoice();
-        const pChoice = prompt("Rock, Paper, Scissors?").toLowerCase();
-
-        let win = playRound(cChoice, pChoice)
-        if (win=="player") {
-            console.log("You Win, " + pChoice + " beats " + cChoice);
-            pScore++;
-
-        } else if (win=="computer") {
-            console.log("You Lose, " + cChoice + " beats " + pChoice);
-            cScore++;
-
-        } else if (win=="tie") {
-            console.log("Its a tie!");
-        }
+    if (pScore==5) {
+        results.innerHTML = ("YOU WIN!!");
+        cScore = 0;
+        pScore = 0;
+    } else if (cScore==5) {
+        results.innerHTML = ("YOU LOSE!!");
+        cScore = 0;
+        pScore = 0;
     }
-    console.log("Your Score = " + pScore + ", Computer Score = " + cScore);
-
-    if (pScore > cScore)
-        console.log("WINNER WINNER CHICKEN DINNER!");
-    else if (pScore < cScore)
-        console.log("Better luck next time");
-    else
-        console.log("TIEEEE");
-
+    
 }
 
-game();
+let pScore = 0;
+let cScore = 0;
+const scores = document.querySelector('#scores');
+function updateScores(){
+    scores.innerHTML = ("Player: " + pScore + " Computer: " + cScore);
+}
+updateScores();
+
+const results = document.querySelector('#results');
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+    button.onclick = () => game(button.id);
+});
